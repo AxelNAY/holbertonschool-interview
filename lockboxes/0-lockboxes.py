@@ -22,9 +22,9 @@ def canUnlockAll(boxes):
                         verify = 1
                 if verify == 0:
                     compare.append(boxes[i][j])
+                    if len(compare) == len(boxes):
+                        return True
                 verify = 0
-                if len(compare) == len(boxes):
-                    return True
     if len(compare) != len(boxes):
         return False
     return True
