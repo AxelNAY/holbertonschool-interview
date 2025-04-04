@@ -11,7 +11,9 @@ def canUnlockAll(boxes):
     Return True if all boxes can be opened, else return False"""
     verify = 0
     compare = [0]
-    for i in range(len(boxes)):
+    for i in range(len(boxes) - 1):
+        if len(boxes[i]) == 0:
+                return False
         for j in range (len(boxes[i])):
             if boxes[i][j] <= len(boxes):
                 for k in range (len(compare)):
@@ -20,7 +22,6 @@ def canUnlockAll(boxes):
                 if verify == 0:
                     compare.append(boxes[i][j])
                 verify = 0
-    print(compare)
     if len(compare) != len(boxes):
         return False
     return True
