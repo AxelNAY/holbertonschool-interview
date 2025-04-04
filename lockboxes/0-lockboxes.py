@@ -12,19 +12,21 @@ def canUnlockAll(boxes):
     Return True if all boxes can be opened, else return False"""
     verify = 0
     compare = [0]
+
     for i in range(len(boxes) - 1):
         if len(boxes[i]) == 0:
             return False
         for j in range(len(boxes[i])):
-            if boxes[i][j] <= len(boxes):
-                for k in range(len(compare)):
-                    if boxes[i][j] == compare[k]:
-                        verify = 1
-                if verify == 0:
-                    compare.append(boxes[i][j])
-                    if len(compare) == len(boxes):
-                        return True
-                verify = 0
+            if boxes[i][j] > len(boxes):
+                return False
+            for k in range(len(compare)):
+                if boxes[i][j] == compare[k]:
+                    verify = 1
+            if verify == 0:
+                compare.append(boxes[i][j])
+                if len(compare) == len(boxes):
+                    return True
+            verify = 0
     if len(compare) != len(boxes):
         return False
     return True
