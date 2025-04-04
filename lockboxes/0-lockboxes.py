@@ -17,8 +17,9 @@ def canUnlockAll(boxes):
         if len(boxes[i]) == 0:
             return False
         for j in range(len(boxes[i])):
-            if boxes[i][j] > len(boxes):
-                return False
+            if i != 0:
+                if boxes[i][j] > len(boxes):
+                    return False
             for k in range(len(compare)):
                 if boxes[i][j] == compare[k]:
                     verify = 1
