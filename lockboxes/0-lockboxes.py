@@ -10,24 +10,13 @@ def canUnlockAll(boxes):
     There can be keys that do not have boxes
     The first box boxes[0] is unlocked
     Return True if all boxes can be opened, else return False"""
-    verify = 0
     compare = [0]
 
-    for i in range(len(boxes) - 1):
-        if len(boxes[i]) == 0:
-            return False
-        for j in range(len(boxes[i])):
-            if i != 0:
-                if boxes[i][j] > len(boxes):
-                    return False
-            for k in range(len(compare)):
-                if boxes[i][j] == compare[k]:
-                    verify = 1
-            if verify == 0:
-                compare.append(boxes[i][j])
-                if len(compare) == len(boxes):
-                    return True
-            verify = 0
+    for i in compare:
+        for j in boxes[i]:
+            if (j not in compare and j != 0 and j < len(boxes)):
+                compare.append(j)
+
     if len(compare) != len(boxes):
         return False
     return True
