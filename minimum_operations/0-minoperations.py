@@ -4,51 +4,18 @@ to result in exactly n H characters"""
 
 
 def minOperations(n):
-    letter = "H"
-    characters = [letter]
-    copy = 1
     operation = 0
-    i = 0
 
-    if n <= 0:
+    if n <= 1:
         return (0)
-    if n == 1:
-        return (1)
 
-    if n % 5 == 0:
-        operation = operation + 5
-        copy = 4
-        while (i < copy):
-            characters.append(letter)
-            i = i + 1
-    elif n % 3 == 0:
-        operation = operation + 3
-        copy = 2
-        while (i < copy):
-            characters.append(letter)
-            i = i + 1
-    elif n % 2 == 0:
-        operation = operation + 2
-        copy = 1
-        while (i < copy):
-            characters.append(letter)
-            i = i + 1
+    operation = 0
+    factor = 2
 
-    if operation != 0:
-        while len(characters) != n:
-            i = 0
-            if n % len(characters) == 0:
-                operation = operation + 2
-                copy = len(characters)
-            else:
-                operation = operation + 1
-            while (i < copy):
-                characters.append(letter)
-                i = i + 1
-    else:
-        operation = 1
-        while len(characters) != n:
-            operation = operation + 1
-            characters.append(letter)
+    while n > 1:
+        while n % factor == 0:
+            operation += factor
+            n //= factor
+        factor += 1
 
     return (operation)
