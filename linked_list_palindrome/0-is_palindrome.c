@@ -1,41 +1,51 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "lists.h"
 
+listint_t *reverse_list(listint_t *head)
+{
+    listint_t *prev = NULL, *next = NULL;
 
-int is_palindrome(listint_t **head) {
-    int i = 0, j, size = 0;
-    listint_t *copy, *first, *second;
-    copy = *head;
+    while (head)
+    {
+        next = head->next;
+        head->next = prev;
+        prev = head;
+        head = next;
+    }
+    return prev;
+}
+
+int is_palindrome(listint_t **head)
+{
+    listint_t *slow, *fast, *second_half, *first_half, *reversed;
 
     if (!head || !*head || !(*head)->next)
-        return (1);
+        return 1;
 
-    while (copy != NULL)
+    slow = fast = *head;
+
+    while (fast && fast->next)
     {
-        copy = copy->next;
-        size++;
+        slow = slow->next;
+        fast = fast->next->next;
     }
 
-    while (i != size / 2) {
-        first = second = *head;
-        for (j = 0; j < i; j++)
+    second_half = reverse_list(slow);
+    reversed = second_half;
+
+    first_half = *head;
+    while (second_half)
+    {
+        if (first_half->n != second_half->n)
         {
-            first = first->next;
+            reverse_list(reversed);
+            return 0;
         }
-        for (j = 0; j < size - (i + 1); j++)
-        {
-            second = second->next;
-        }
-        if (first->n != second->n)
-        {
-            return (0);
-        }
-        else
-        {
-            i++;
-        }
+        first_half = first_half->next;
+        second_half = second_half->next;
     }
 
-    return (1);
+    reverse_list(reversed);
+
+    return 1;
 }
