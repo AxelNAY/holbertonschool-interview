@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 """
-Script that reads stdin line by line and computes metrics.
-
-It processes input lines that follow a specific log format,
-extracts HTTP status codes and file sizes, and prints cumulative
-statistics every 10 lines and on keyboard interruption.
+This script reads lines from standard input containing log entries,
+computes metrics such as total file size and the number of occurrences
+of specific HTTP status codes, and prints the results periodically.
 """
-
 import sys
 import re
 from collections import defaultdict
