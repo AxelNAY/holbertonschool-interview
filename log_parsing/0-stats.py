@@ -1,9 +1,11 @@
 #!/usr/bin/python3
+
 """
 This script reads lines from standard input containing log entries,
 computes metrics such as total file size and the number of occurrences
 of specific HTTP status codes, and prints the results periodically.
 """
+
 import sys
 import re
 from collections import defaultdict
