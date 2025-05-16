@@ -6,6 +6,7 @@ It processes input lines that follow a specific log format,
 extracts HTTP status codes and file sizes, and prints cumulative
 statistics every 10 lines and on keyboard interruption.
 """
+
 import sys
 import re
 from collections import defaultdict
@@ -23,7 +24,11 @@ log_pattern = re.compile(
 
 
 def print_stats():
-    """A function that prints metrics."""
+    """
+    Prints the current accumulated statistics:
+    - Total file size
+    - Count of each valid status code encountered
+    """
     print("File size: {}".format(total_size))
     for code in sorted(valid_status_codes):
         if status_counts[code] > 0:
