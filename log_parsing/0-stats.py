@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
 Script that reads logs from standard input (stdin)
 and displays statistics:
@@ -7,6 +6,7 @@ and displays statistics:
 - Number of lines per valid HTTP status code
 Statistics are printed every 10 lines or upon keyboard interruption (CTRL+C).
 """
+
 
 import sys
 import re
