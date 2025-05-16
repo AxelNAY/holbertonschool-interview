@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 
 """
-This script reads lines from standard input containing log entries,
-computes metrics such as total file size and the number of occurrences
-of specific HTTP status codes, and prints the results periodically.
+Script that reads logs from standard input (stdin)
+and displays statistics:
+- Total file size
+- Number of lines per valid HTTP status code
+Statistics are printed every 10 lines or upon keyboard interruption (CTRL+C).
 """
 
 import sys
