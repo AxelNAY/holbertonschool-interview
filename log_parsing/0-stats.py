@@ -1,13 +1,5 @@
 #!/usr/bin/python3
-"""
-Script that reads logs from standard input (stdin)
-and displays statistics:
-- Total file size
-- Number of lines per valid HTTP status code
-Statistics are printed every 10 lines or upon keyboard interruption (CTRL+C).
-"""
-
-
+""" A script that reads stdin line by line and computes metrics. """
 import sys
 import re
 from collections import defaultdict
