@@ -25,11 +25,6 @@ log_pattern = re.compile(
 
 
 def print_stats():
-    """
-    Prints the current accumulated statistics:
-    - Total file size
-    - Count of each valid status code encountered
-    """
     print("File size: {}".format(total_size))
     for code in sorted(valid_status_codes):
         if status_counts[code] > 0:
