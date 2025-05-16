@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-'''Script that reads stdin line by line and computes metrics'''
+"""
+Script that reads stdin line by line and computes metrics.
+
+It processes input lines that follow a specific log format,
+extracts HTTP status codes and file sizes, and prints cumulative
+statistics every 10 lines and on keyboard interruption.
+"""
 import sys
 import re
 from collections import defaultdict
@@ -17,7 +23,7 @@ log_pattern = re.compile(
 
 
 def print_stats():
-    '''A function that prints metrics.'''
+    """A function that prints metrics."""
     print("File size: {}".format(total_size))
     for code in sorted(valid_status_codes):
         if status_counts[code] > 0:
