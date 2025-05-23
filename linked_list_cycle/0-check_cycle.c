@@ -16,20 +16,20 @@ int check_cycle(listint_t *list)
 
 	temp = list;
 
-	while (temp != NULL)
+	while (list != NULL)
 	{
-		node_storage = list;
+		node_storage = temp;
 		j = 0;
 		while (j < i)
 		{
-			if (temp->n == node_storage->n)
+			if (list->n == node_storage->n)
 			{
 				return (1);
 			}
 			node_storage = node_storage->next;
 			j++;
 		}
-		temp = temp->next;
+		list = list->next;
 		i++;
 	}
 
