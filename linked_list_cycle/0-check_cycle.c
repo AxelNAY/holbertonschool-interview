@@ -16,12 +16,6 @@ int check_cycle(listint_t *list)
 
 	temp = list;
 
-	node_storage = malloc(sizeof(list));
-	if (node_storage == NULL)
-	{
-		return (0);
-	}
-
 	while (temp != NULL)
 	{
 		node_storage = list;
