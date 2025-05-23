@@ -11,26 +11,18 @@
 */
 int check_cycle(listint_t *list)
 {
-	listint_t *temp, *node_storage;
-	int i = 0, j;
+	listint_t *current = list;
+	listint_t *temp = list;
 
-	temp = list;
-
-	while (temp != NULL)
+	while (temp != NULL && temp->next != NULL)
 	{
-		node_storage = list;
-		j = 0;
-		while (j < i)
+		current = current->next;
+		temp = temp->next->next;
+
+		if (current == temp)
 		{
-			if (temp->n == node_storage->n)
-			{
-				return (1);
-			}
-			node_storage = node_storage->next;
-			j++;
+			return (1);
 		}
-		temp = temp->next;
-		i++;
 	}
 
 	return (0);
