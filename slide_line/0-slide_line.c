@@ -15,8 +15,6 @@ int slide_line(int *line, size_t size, int direction)
 {
     int n = 0, index = 0, verify = 0;
     int size_int = size;
-    printf("%ld\n", size);
-    printf("%d\n", direction);
 
     if (direction != 0 && direction != 1)
     {
