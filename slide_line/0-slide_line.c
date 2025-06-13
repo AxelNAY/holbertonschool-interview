@@ -13,30 +13,40 @@
  */
 int slide_line(int *line, size_t size, int direction)
 {
-    int n = 0, index = 0;
+    int n = 0, index = 0, verify = 0;
+    int size_int = size;
+    printf("%ld\n", size);
+    printf("%d\n", direction);
 
-    if (direction != 0 || direction != 1)
+    if (direction != 0 && direction != 1)
     {
         return (0);
     }
     if (direction == 0)
     {
-        for (int i = 0; i < size; i++)
+        for (size_t i = 0; i < size; i++)
         {
             if (line[i] != 0)
             {
                 if (n != 0)
                 {
-                    if (line[i] == n)
+                    if (line[i] == n && verify == 0)
                     {
                         line[index] += n;
                         n = line[index];
                         line[i] = 0;
                     }
-                    else if (line[i] != 0)
+                    else if (line[i] == n)
+                    {
+                        line[index] += n;
+                        n = line[index];
+                        line[i] = 0;
+                        verify = 1;
+                    }
+                    else
                     {
                         n = line[i];
-                        line[i] == 0;
+                        line[i] = 0;
                         index++;
                         line[index] = n;
                     }
@@ -52,10 +62,13 @@ int slide_line(int *line, size_t size, int direction)
     }
     else if (direction == 1)
     {
-        for (int i = size - 1; i >= size; i--)
+        printf("Quoi\n");
+        for (int i = size_int - 1; i >= 0; i--)
         {
+            printf("Holà\n");
             if (line[i] != 0)
             {
+                printf("Hello\n");
                 if (n != 0)
                 {
                     if (line[i] == n)
@@ -64,16 +77,17 @@ int slide_line(int *line, size_t size, int direction)
                         n = line[index];
                         line[i] = 0;
                     }
-                    else if (line[i] != 0)
+                    else
                     {
                         n = line[i];
-                        line[i] == 0;
+                        line[i] = 0;
                         index--;
                         line[index] = n;
                     }
                 }
                 else
                 {
+                    printf("Bonjour\n");
                     n = line[i];
                     line[i] = 0;
                     index = size - 1;
