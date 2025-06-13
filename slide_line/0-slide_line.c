@@ -35,12 +35,6 @@ int slide_line(int *line, size_t size, int direction)
                         line[index] += n;
                         n = line[index];
                         line[i] = 0;
-                    }
-                    else if (line[i] == n)
-                    {
-                        line[index] += n;
-                        n = line[index];
-                        line[i] = 0;
                         verify = 1;
                     }
                     else
@@ -49,6 +43,7 @@ int slide_line(int *line, size_t size, int direction)
                         line[i] = 0;
                         index++;
                         line[index] = n;
+                        verify = 0;
                     }
                 }
                 else
@@ -62,20 +57,18 @@ int slide_line(int *line, size_t size, int direction)
     }
     else if (direction == 1)
     {
-        printf("Quoi\n");
         for (int i = size_int - 1; i >= 0; i--)
         {
-            printf("Holà\n");
             if (line[i] != 0)
             {
-                printf("Hello\n");
                 if (n != 0)
                 {
-                    if (line[i] == n)
+                    if (line[i] == n && verify == 0)
                     {
                         line[index] += n;
                         n = line[index];
                         line[i] = 0;
+                        verify = 1;
                     }
                     else
                     {
@@ -83,11 +76,11 @@ int slide_line(int *line, size_t size, int direction)
                         line[i] = 0;
                         index--;
                         line[index] = n;
+                        verify = 0;
                     }
                 }
                 else
                 {
-                    printf("Bonjour\n");
                     n = line[i];
                     line[i] = 0;
                     index = size - 1;
