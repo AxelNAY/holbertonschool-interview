@@ -13,43 +13,41 @@
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
-    int verify = 0;
-    size_t  index_min, index_max;
-    skiplist_t *node, *res;
+    skiplist_t *node, *prev;
 
-    if (value == 0)
-    {
-        return NULL;
-    }
-    for (node = list; node; node = node->express)
+	if (list == NULL)
+		return (NULL);
+
+	node = list;
+	while (node->express && node->express->n < value)
 	{
-		printf("Value checked at index[%lu] = [%d]\n", node->index, node->n);
-        if (node->n >= value)
-        {
-            index_max = node->index;
-            printf("Value found between indexes [%ld] and [%ld]\n", index_min, index_max);
-            break;
-        }
-        else
-        {
-            index_min = node->index;
-        }
+		printf("Value checked at index [%lu] = [%d]\n", node->express->index, node->express->n);
+		node = node->express;
 	}
-    while (node)
+
+	if (node->express)
 	{
-        if (node->n == value)
-        {
-            verify = 1;
-            res = node->index;
-        }
-        if (node->index >= index_min && node->index < index_max)
-        {
-            printf("Value checked at index[%lu] = [%d]\n", node->index, node->n);
-        }
+		printf("Value checked at index [%lu] = [%d]\n", node->express->index, node->express->n);
+		prev = node;
+		node = node->express;
 	}
-    if (verify == 0)
-    {
-        return NULL;
-    }
-    return res;
+	else
+	{
+		/* Move to the end */
+		prev = node;
+		while (node->next)
+			node = node->next;
+	}
+
+	printf("Value found between indexes [%lu] and [%lu]\n", prev->index, node->index);
+
+	while (prev && prev->index <= node->index)
+	{
+		printf("Value checked at index [%lu] = [%d]\n", prev->index, prev->n);
+		if (prev->n == value)
+			return (prev);
+		prev = prev->next;
+	}
+
+	return (NULL);
 }
