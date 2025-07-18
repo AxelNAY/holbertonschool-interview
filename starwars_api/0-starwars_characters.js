@@ -5,12 +5,18 @@ if (!epNumber) {
     console.log('Use: ./0-starwars_characters.js <episode Number>');
     process.exit(1);
 }
+
 const urlPath = 'https://swapi-api.hbtn.io/api/films/' + epNumber;
 request(urlPath, function (err, response, body) {
     if (err) throw err;
-    const movie = JSON.parse(body).results;
-    console.log(movie);
-    for (const character of movie.characters) {
-        console.log(character);
+    const movie = JSON.parse(body);
+    console.log(movie.characters);
+    for (urlChar in movie.characters) {
+        console.log(urlChar);
+        // request(urlChar, function(err, response, body) {
+        //     console.log(urlChar);
+        //     const character = JSON.parse(body);
+        //     console.log(character.name);
+        // });
     }
 });
