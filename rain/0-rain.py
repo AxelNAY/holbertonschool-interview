@@ -32,6 +32,9 @@ def rain(walls):
             elif left_wall > wall:
                 result += wall * count
                 left_wall = wall
+            elif left_wall == wall:
+                result += wall * count
+                left_wall = wall
             count = 0
 
     return result
