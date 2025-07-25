@@ -14,27 +14,21 @@ def rain(walls):
     Return: Integer indicating total amount of rainwater retained
     or 0 if walls is empty
     """
-    left_wall = 0
-    count = 0
-    result = 0
-    if len(walls) < 1:
+    if not walls:
         return 0
 
-    for wall in walls:
-        if wall == 0:
-            count += 1
-        else:
-            if left_wall == 0:
-                left_wall = wall
-            elif left_wall < wall:
-                result += left_wall * count
-                left_wall = wall
-            elif left_wall > wall:
-                result += wall * count
-                left_wall = wall
-            elif left_wall == wall:
-                result += wall * count
-                left_wall = wall
-            count = 0
+    result = 0
+
+    for i in range(1, len(walls) - 1):
+        left_max = walls[i]
+        right_max = walls[i]
+
+        for j in range(i):
+            left_max = max(left_max, walls[j])
+
+        for j in range(i + 1, len(walls)):
+            right_max = max(right_max, walls[j])
+
+        result += min(left_max, right_max) - walls[i]
 
     return result
