@@ -9,11 +9,11 @@
  * @n: The size of the array part
  * @i: The indice of the node
  */
-void heapify(int arr[], size_t size, int n, int i)
+void heapify(int arr[], size_t size, size_t n, size_t i)
 {
-	int largest = i;
-	int left = 2 * i + 1;
-	int right = 2 * i + 2;
+	size_t largest = i;
+	size_t left = 2 * i + 1;
+	size_t right = 2 * i + 2;
 
 	if (left < n && arr[left] > arr[largest])
 	{
@@ -51,14 +51,14 @@ void heap_sort(int *array, size_t size)
 		heapify(array, size, size, i);
 	}
 
-	for (int i = size - 1; i > 0; i--)
+	for (size_t i = size - 1; i > 0; i--)
 	{
 		int temp = array[0];
 
 		array[0] = array[i];
 		array[i] = temp;
 
+        print_array(array, size);
 		heapify(array, size, i, 0);
-		print_array(array, size);
 	}
 }
