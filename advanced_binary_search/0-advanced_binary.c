@@ -42,12 +42,12 @@ int search(int *array, int start, int end, int value)
 		int half = start + (end - start) / 2;
 
 		if (array[half] == value && array[half - 1] != value)
-			return half;
+			return (half);
 
 		if (array[half] >= value)
-			return search(array, start, half, value);
+			return (search(array, start, half, value));
 
-		return search(array, half + 1, end, value);
+		return (search(array, half + 1, end, value));
 	}
 	return (-1);
 }
@@ -70,5 +70,5 @@ int advanced_binary(int *array, size_t size, int value)
 		return (1);
 	int start = 0, end = size - 1;
 
-	return search(array, start, end, value);
+	return (search(array, start, end, value));
 }
