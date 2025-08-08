@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stddef.h>
 #include "search_algos.h"
 
 
@@ -10,9 +11,11 @@
  * @end: index of the last element
  */
 void print_array(int *array, int start, int end)
+
 {
 	printf("Searching in array: ");
-	for (int i = start; i <= end; i++) {
+	for (int i = start; i <= end; i++)
+	{
 		printf("%d", array[i]);
 		if (i != end)
 			printf(", ");
@@ -31,8 +34,10 @@ void print_array(int *array, int start, int end)
  * Return: index of the value or -1 if failed
  */
 int search(int *array, int start, int end, int value)
+
 {
-	if (end >= start) {
+	if (end >= start)
+	{
 		print_array(array, start, end);
 		int half = start + (end - start) / 2;
 
@@ -57,6 +62,7 @@ int search(int *array, int start, int end, int value)
  * Return: index of the value or -1 if failed
  */
 int advanced_binary(int *array, size_t size, int value)
+
 {
 	if (array == NULL || size == 0)
 		return (-1);
