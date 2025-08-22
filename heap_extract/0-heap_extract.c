@@ -4,69 +4,53 @@
 #include "binary_trees.h"
 
 /**
- * count_nodes - Count the total number of nodes in the heap
- * @root: pointer to the root node
- * Return: number of nodes
- */
-int count_nodes(heap_t *root)
-{
-    if (!root)
-        return (0);
-    return (1 + count_nodes(root->left) + count_nodes(root->right));
-}
-
-/**
- * find_last_node - Find the last node in level order (rightmost of last level)
+ * find_last_and_heapify - Find last node and restore heap property
  * @root: pointer to the root node
  * @index: current index (1-based)
  * @total: total number of nodes
- * Return: pointer to the last node
+ * @count_mode: if 1, count nodes; if 0, find last node
+ * Return: pointer to the last node or count based on mode
  */
-heap_t *find_last_node(heap_t *root, int index, int total)
+heap_t *find_last_and_heapify(heap_t *root, int index,
+	int total, int count_mode)
 {
-    heap_t *left_result, *right_result;
+	heap_t *left_result, *right_result, *largest;
+	int temp;
 
-    if (!root)
-        return (NULL);
-    
-    if (index == total)
-        return (root);
-    
-    left_result = find_last_node(root->left, 2 * index, total);
-    if (left_result)
-        return (left_result);
-    
-    right_result = find_last_node(root->right, 2 * index + 1, total);
-    return (right_result);
-}
+	if (!root)
+		return (count_mode ? (heap_t *)0 : NULL);
 
-/**
- * heapify_down - Restore heap property by moving node down
- * @node: pointer to the node to heapify
- */
-void heapify_down(heap_t *node)
-{
-    heap_t *largest;
-    int temp;
+	if (count_mode)
+		return ((heap_t *)(1 + (size_t)find_last_and_heapify(root->left, 0, 0, 1) +
+							   (size_t)find_last_and_heapify(root->right, 0, 0, 1)));
 
-    if (!node)
-        return;
+	if (total > 0)
+	{
+		if (index == total)
+			return (root);
 
-    largest = node;
+		left_result = find_last_and_heapify(root->left, 2 * index, total, 0);
+		if (left_result)
+			return (left_result);
 
-    if (node->left && node->left->n > largest->n)
-        largest = node->left;
+		right_result = find_last_and_heapify(root->right, 2 * index + 1, total, 0);
+		return (right_result);
+	}
 
-    if (node->right && node->right->n > largest->n)
-        largest = node->right;
+	largest = root;
+	if (root->left && root->left->n > largest->n)
+		largest = root->left;
+	if (root->right && root->right->n > largest->n)
+		largest = root->right;
 
-    if (largest != node)
-    {
-        temp = node->n;
-        node->n = largest->n;
-        largest->n = temp;
-        heapify_down(largest);
-    }
+	if (largest != root)
+	{
+		temp = root->n;
+		root->n = largest->n;
+		largest->n = temp;
+		find_last_and_heapify(largest, 0, -1, 0);
+	}
+	return (NULL);
 }
 
 /**
@@ -76,38 +60,38 @@ void heapify_down(heap_t *node)
  */
 int heap_extract(heap_t **root)
 {
-    int extracted_value, total_nodes;
-    heap_t *last_node;
+	int extracted_value, total_nodes;
+	heap_t *last_node;
 
-    if (!root || !*root)
-        return (0);
+	if (!root || !*root)
+		return (0);
 
-    extracted_value = (*root)->n;
+	extracted_value = (*root)->n;
 
-    if (!(*root)->left && !(*root)->right)
-    {
-        free(*root);
-        *root = NULL;
-        return (extracted_value);
-    }
+	if (!(*root)->left && !(*root)->right)
+	{
+		free(*root);
+		*root = NULL;
+		return (extracted_value);
+	}
 
-    total_nodes = count_nodes(*root);
-    last_node = find_last_node(*root, 1, total_nodes);
+	total_nodes = (int)(size_t)find_last_and_heapify(*root, 0, 0, 1);
+	last_node = find_last_and_heapify(*root, 1, total_nodes, 0);
 
-    (*root)->n = last_node->n;
+	(*root)->n = last_node->n;
 
-    if (last_node->parent)
-    {
-        if (last_node->parent->left == last_node)
-            last_node->parent->left = NULL;
-        else
-            last_node->parent->right = NULL;
-    }
-    free(last_node);
+	if (last_node->parent)
+	{
+		if (last_node->parent->left == last_node)
+			last_node->parent->left = NULL;
+		else
+			last_node->parent->right = NULL;
+	}
+	free(last_node);
 
-    heapify_down(*root);
+	find_last_and_heapify(*root, 0, -1, 0);
 
-    return (extracted_value);
+	return (extracted_value);
 }
 
 /**
@@ -116,26 +100,26 @@ int heap_extract(heap_t **root)
  */
 void recurse_extract(heap_t *tree)
 {
-    heap_t *sub_max, *right_max = NULL;
+	heap_t *sub_max, *right_max = NULL;
 
-    if (!tree->left)
-        return;
-    sub_max = max((tree)->left);
-    if (tree->right)
-        right_max = max(tree->right);
-    if (right_max && right_max->n > sub_max->n)
-        sub_max = right_max;
-    tree->n = sub_max->n;
-    if (!sub_max->left)
-    {
-        if (sub_max->parent && sub_max->parent->left == sub_max)
-            sub_max->parent->left = NULL;
-        if (sub_max->parent && sub_max->parent->right == sub_max)
-            sub_max->parent->right = NULL;
-        free(sub_max);
-    }
-    else
-        recurse_extract(sub_max);
+	if (!tree->left)
+		return;
+	sub_max = max((tree)->left);
+	if (tree->right)
+		right_max = max(tree->right);
+	if (right_max && right_max->n > sub_max->n)
+		sub_max = right_max;
+	tree->n = sub_max->n;
+	if (!sub_max->left)
+	{
+		if (sub_max->parent && sub_max->parent->left == sub_max)
+			sub_max->parent->left = NULL;
+		if (sub_max->parent && sub_max->parent->right == sub_max)
+			sub_max->parent->right = NULL;
+		free(sub_max);
+	}
+	else
+		recurse_extract(sub_max);
 }
 
 /**
@@ -145,20 +129,20 @@ void recurse_extract(heap_t *tree)
  */
 heap_t *max(heap_t *tree)
 {
-    heap_t *curr_max, *left_max, *right_max;
+	heap_t *curr_max, *left_max, *right_max;
 
-    if (!tree->left)
-        return (tree);
-    left_max = max(tree->left);
-    if (left_max->n > tree->n)
-        curr_max = left_max;
-    else
-        curr_max = tree;
-    if (tree->right)
-    {
-        right_max = max(tree->right);
-        if (right_max->n > curr_max->n)
-            curr_max = right_max;
-    }
-    return (curr_max);
+	if (!tree->left)
+		return (tree);
+	left_max = max(tree->left);
+	if (left_max->n > tree->n)
+		curr_max = left_max;
+	else
+		curr_max = tree;
+	if (tree->right)
+	{
+		right_max = max(tree->right);
+		if (right_max->n > curr_max->n)
+			curr_max = right_max;
+	}
+	return (curr_max);
 }
