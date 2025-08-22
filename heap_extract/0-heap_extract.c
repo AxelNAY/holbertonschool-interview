@@ -47,7 +47,16 @@ void recurse_extract(heap_t *tree)
 	if (right_max && right_max->n > sub_max->n)
 		sub_max = right_max;
 	tree->n = sub_max->n;
-	recurse_extract(sub_max);
+	if (!sub_max->left)
+	{
+		if (sub_max->parent && sub_max->parent->left == sub_max)
+			sub_max->parent->left = NULL;
+		if (sub_max->parent && sub_max->parent->right == sub_max)
+			sub_max->parent->right = NULL;
+		free(sub_max);
+	}
+	else
+		recurse_extract(sub_max);
 }
 
 /**
