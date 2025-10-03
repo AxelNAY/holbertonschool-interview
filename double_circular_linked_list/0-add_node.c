@@ -1,85 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
 
 /**
- * add_node_end - Add a new node to the end of a double circular linked list
+ * create_node - creates a new node
+ * @str: string to copy
+ * Return: new_node
  *
- * @list: list to modify
- * @str: string to copy into the new node
- *
- * Return: Address of the new node, or NULL on failure
  */
-List *add_node_end(List **list, char *str)
+
+List *create_node(char *str)
 {
-	List *newNode, *last;
+	List *new_node = (List *)malloc(sizeof(List));
 
-	if (!str || !list)
+	if (!new_node)
 		return (NULL);
 
-	newNode = malloc(sizeof(List));
-	if (!newNode)
+	char *dup_str = strdup(str);
+
+	if (!dup_str)
 		return (NULL);
 
-	newNode->str = str;
+	new_node->str = dup_str;
+	new_node->prev = new_node->next = NULL;
 
-	if (*list == NULL)
-	{
-		newNode->next = newNode;
-		newNode->prev = newNode;
-		*list = newNode;
-	}
-	else
-	{
-		last = (*list)->prev;
-
-		newNode->next = *list;
-		newNode->prev = last;
-		last->next = newNode;
-		(*list)->prev = newNode;
-	}
-
-	return (newNode);
+	return (new_node);
 }
 
+/**
+ * add_node_end - adds a new node at the end of the list
+ * @list: head of the list
+ * @str: string to insert
+ * Return: address of new node or NULL in case of failure
+ */
+
+List *add_node_end(List **list, char *str)
+{
+	List *new_node = create_node(str);
+	List *head, *last = NULL;
+
+	if (!new_node || !list)
+		return (NULL);
+	head = *list;
+
+	if (!head)
+	{
+		new_node->next = new_node->prev = new_node;
+		*list = new_node;
+	} else
+	{
+		last = head->prev;
+		new_node->next = head;
+		last->next = new_node;
+		new_node->prev = last;
+		head->prev = new_node;
+
+	}
+	return (new_node);
+}
 
 /**
- * add_node_begin - Add a new node to the beginning
- * of a double circular linked list
- * @list: list to modify
- * @str: string to copy into the new node
- *
- * Return: Address of the new node, or NULL on failure
+ * add_node_begin - adds a new node at the beginning of the list
+ * @list: head of the list
+ * @str: string to insert
+ * Return: address of new node or NULL in case of failure
  */
+
 List *add_node_begin(List **list, char *str)
 {
-	List *newNode, *last;
+	List *new_node = NULL;
 
-	if (!str || !list)
+	new_node = add_node_end(list, str);
+	if (!new_node)
 		return (NULL);
 
-	newNode = malloc(sizeof(List));
-	if (!newNode)
-		return (NULL);
+	*list = new_node;
 
-	newNode->str = str;
-
-	if (*list == NULL)
-	{
-		newNode->next = newNode;
-		newNode->prev = newNode;
-		*list = newNode;
-	}
-	else
-	{
-		last = (*list)->prev;
-
-		newNode->next = *list;
-		newNode->prev = last;
-		(*list)->prev = newNode;
-		last->next = newNode;
-		*list = newNode;
-	}
-
-	return (newNode);
+	return (new_node);
 }
