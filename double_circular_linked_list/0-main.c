@@ -33,30 +33,31 @@ void print_list(List *list)
 int main(void)
 {
     List *list;
-    //List *test;
+    // List *test;
 
     list = NULL;
-    //test = NULL;
+    // test = NULL;
     add_node_end(&list, "Holberton");
     add_node_end(&list, "School");
     add_node_end(&list, "Full");
     add_node_end(&list, "Stack");
     add_node_end(&list, "Engineer");
 
-    //add_node_end(&test, "test_end");
+    // add_node_end(&test, "test_end");
+    // print_list(test);
 
     printf("Added to the end:\n");
     print_list(list);
     list = NULL;
-    //test = NULL;
+    // test = NULL;
     add_node_begin(&list, "Holberton");
     add_node_begin(&list, "School");
     add_node_begin(&list, "Full");
     add_node_begin(&list, "Stack");
     add_node_begin(&list, "Engineer");
 
-    //add_node_begin(&test, "test_begin");
-    //print_list(test);
+    // add_node_begin(&test, "test_begin");
+    // print_list(test);
 
     printf("Added to the beginning:\n");
     print_list(list);
