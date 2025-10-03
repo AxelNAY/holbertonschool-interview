@@ -14,7 +14,7 @@ List *add_node_end(List **list, char *str)
 {
 	List *newNode, *last;
 
-	if (!str || !list)
+	if (!str)
 		return (NULL);
 
 	newNode = malloc(sizeof(List));
@@ -22,7 +22,6 @@ List *add_node_end(List **list, char *str)
 		return (NULL);
 
 	newNode->str = str;
-	newNode->next = newNode->prev = NULL;
 
 	if (!*list)
 	{
@@ -55,7 +54,7 @@ List *add_node_begin(List **list, char *str)
 {
 	List *newNode, *last;
 
-	if (!str || !list)
+	if (!str)
 		return (NULL);
 
 	newNode = malloc(sizeof(List));
@@ -63,7 +62,6 @@ List *add_node_begin(List **list, char *str)
 		return (NULL);
 
 	newNode->str = str;
-	newNode->next = newNode->prev = NULL;
 
 	if (!*list)
 	{
