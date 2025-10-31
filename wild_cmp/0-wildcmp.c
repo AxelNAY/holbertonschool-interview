@@ -2,65 +2,30 @@
 #include <string.h>
 #include "holberton.h"
 
-
-int voys2(char *s2)
+/**
+ * wildCardRec - Compares two strings allowing the wildcard character '*'
+ *
+ * @s1: first string
+ * @s2: second string
+ * @len_s1: lenght of the first string
+ * @len_s2: lenght of the second string
+ *
+ * Return: 1 if the strings can be considered identical,
+ * otherwise return 0
+ */
+int wildCardRec(char *s1, char *s2, int len_s1, int len_s2)
 {
-    char *star = "*";
-    if (*s2 == *star)
-    {
-        s2++;
-        voys2(s2);
-    }
-    if (*s2 == '\0')
-    {
-        return (0);
-    }
-    printf("s2: %d\n", *s2);
-    return (1);
-}
+	if (len_s2 == 0)
+		return (len_s1 == 0);
 
+	if (s1[len_s1 - 1] == s2[len_s2 - 1])
+		return (wildCardRec(s1, s2, len_s1 - 1, len_s2 - 1));
 
-int voys1(char *s1, char *s2)
-{
-    if (*s1 == '\0')
-    {
-        return (0);
-    }
-    if (*s1 != *s2)
-    {
-        s1++;
-        voys1(s1, s2);
-    }
-    printf("s1: %d\n", *s1);
-    return (1);
-}
+	if (s2[len_s2 - 1] == '*')
+		return (wildCardRec(s1, s2, len_s1, len_s2 - 1) ||
+			   wildCardRec(s1, s2, len_s1 - 1, len_s2));
 
-
-int compar(char *s1, char *s2)
-{
-    char *star = "*";
-
-    if (*s2 == *star)
-    {
-        if (voys2(s2) == 0)
-        {
-            return (1);
-        }
-        if (voys1(s1, s2) == 0)
-        {
-            return (0);
-        }
-    }
-    if (*s1 != *s2)
-    {
-        return (0);
-    }
-    s1++;
-    s2++;
-    if (*s1 == '\0' && *s2 == '\0')
-        return (1);
-    compar(s1, s2);
-    return (0);
+	return (0);
 }
 
 
@@ -75,7 +40,8 @@ int compar(char *s1, char *s2)
  */
 int wildcmp(char *s1, char *s2)
 {
-    if (compar(s1, s2) == 1)
-        return (1);
-    return (0);
+	int len_s1 = strlen(s1);
+	int len_s2 = strlen(s2);
+
+	return (wildCardRec(s1, s2, len_s1, len_s2));
 }
