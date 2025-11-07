@@ -18,7 +18,8 @@ def pascal_triangle(n):
     for i in range(n):
         row = []
         for j in range(i+1):
-            row.append(factorial_recursive(i)//(factorial_recursive(j)*factorial_recursive(i-j)))
+            row.append(factorial_recursive(i) //
+                       (factorial_recursive(j)*factorial_recursive(i-j)))
         triangle.append(row)
 
     return triangle
