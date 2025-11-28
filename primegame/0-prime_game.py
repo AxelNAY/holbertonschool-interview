@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """File containing isWinner function"""
 
+
 def prime(num):
     """Create a list of prime number"""
     if num < 2:
