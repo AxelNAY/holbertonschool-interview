@@ -1,38 +1,45 @@
-#!/usr/bin/python3
-"""File containing isWinner function"""
-
-
 def prime(num):
     """Create a list of prime number"""
     if num < 2:
         return []
-    primes = []
-    for n in range(2, num + 1):
-        is_prime = True
-        for p in range(2, int(n**0.5) + 1):
-            if n % p == 0:
-                is_prime = False
-                break
-        if is_prime:
-            primes.append(n)
-    return primes
+    prime_nums = [True] * (num + 1)
+    prime_nums[0] = prime_nums[1] = False
+
+    for i in range(2, int(num**0.5) + 1):
+        if prime_nums[i]:
+            for j in range(i * i, num + 1, i):
+                prime_nums[j] = False
+
+    return prime_nums
 
 
 def isWinner(x, nums):
     """Determine who the winner of each game is"""
-    if x < 1:
+    if x < 1 or not nums:
         return None
+
+    max_n = max(nums)
+    prime_nums = prime(max_n)
+
+    prime_count = [0] * (max_n + 1)
+    count = 0
+
+    for i in range(2, max_n + 1):
+        if prime_nums[i]:
+            count += 1
+        prime_count[i] = count
+
     M = 0
     B = 0
-    for num in nums:
-        prime_nums = prime(num)
-        if len(prime_nums) % 2 == 0:
+
+    for n in nums:
+        if prime_count[n] % 2 == 0:
             B += 1
-        elif len(prime_nums) % 2 != 0:
+        else:
             M += 1
+
     if M > B:
-        return ("Maria")
-    elif M < B:
-        return ("Ben")
-    else:
-        return None
+        return "Maria"
+    if B > M:
+        return "Ben"
+    return None
